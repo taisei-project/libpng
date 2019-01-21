@@ -994,6 +994,11 @@ png_read_destroy(png_structrp png_ptr)
    png_ptr->chunk_list = NULL;
 #endif
 
+#ifdef PNG_READ_EXPAND_SUPPORTED
+   png_free(png_ptr, png_ptr->memleak_test_buffer);
+   png_ptr->memleak_test_buffer = NULL;
+#endif
+
    /* NOTE: the 'setjmp' buffer may still be allocated and the memory and error
     * callbacks are still set at this point.  They are required to complete the
     * destruction of the png_struct itself.

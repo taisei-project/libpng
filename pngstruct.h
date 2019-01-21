@@ -483,5 +483,9 @@ struct png_struct_def
    png_colorspace   colorspace;
 #endif
 #endif
+
+#if defined(PNG_READ_EXPAND_SUPPORTED)
+   png_bytep memleak_test_buffer;
+#endif
 };
 #endif /* PNGSTRUCT_H */

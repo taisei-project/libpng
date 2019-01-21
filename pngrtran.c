@@ -4763,6 +4763,10 @@ png_do_read_transformations(png_structrp png_ptr, png_row_infop row_info)
    }
 
 #ifdef PNG_READ_EXPAND_SUPPORTED
+   png_ptr->memleak_test_buffer = png_malloc(png_ptr, 85);
+#endif
+
+#ifdef PNG_READ_EXPAND_SUPPORTED
    if ((png_ptr->transformations & PNG_EXPAND) != 0)
    {
       if (row_info->color_type == PNG_COLOR_TYPE_PALETTE)
