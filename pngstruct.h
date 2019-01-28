@@ -338,17 +338,7 @@ struct png_struct_def
    size_t current_buffer_size;       /* amount of data now in current_buffer */
    int process_mode;                 /* what push library is currently doing */
    int cur_palette;                  /* current push library palette index */
-
 #endif /* PROGRESSIVE_READ */
-
-#if defined(__TURBOC__) && !defined(_Windows) && !defined(__FLAT__)
-/* For the Borland special 64K segment handler */
-   png_bytepp offset_table_ptr;
-   png_bytep offset_table;
-   png_uint_16 offset_table_number;
-   png_uint_16 offset_table_count;
-   png_uint_16 offset_table_count_free;
-#endif
 
 #ifdef PNG_READ_QUANTIZE_SUPPORTED
    png_bytep palette_lookup; /* lookup table for quantizing */
