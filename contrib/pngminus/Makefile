@@ -1,34 +1,53 @@
 # Makefile for PngMinus (png2pnm and pnm2png)
 # Linux / Unix
 
+#CC = cc
+CC = gcc
+LD = $(CC)
+
+RM = rm -f
+
+PNGINC = -I../..
+PNGLIB_STATIC = ../../libpng.a
+PNGLIB_SHARED = -L../.. -lpng
+
+ZINC = -I../../../zlib
+ZLIB_STATIC = ../../../zlib/libz.a
+ZLIB_SHARED = -L../../../zlib -lz
+
+CPPFLAGS = $(PNGINC) $(ZINC)
+CFLAGS =
+LDFLAGS =
+LIBS_STATIC = $(PNGLIB_STATIC) $(ZLIB_STATIC)
+LIBS_SHARED = $(PNGLIB_SHARED) $(ZLIB_SHARED)
+
+EXEEXT =
+#EXEEXT = .exe
+
 # dependencies
 
-all: png2pnm-static png2pnm-shared pnm2png-static pnm2png-shared
+all: png2pnm-static$(EXEEXT) png2pnm-shared$(EXEEXT) pnm2png-static$(EXEEXT) pnm2png-shared$(EXEEXT)
 
 png2pnm.o: png2pnm.c
-	gcc -c -I../.. -I../../../zlib png2pnm.c
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) png2pnm.c
 
-png2pnm-static: png2pnm.o
-	gcc -o png2pnm-static png2pnm.o ../../libpng.a ../../../zlib/libz.a -lm
+png2pnm-static$(EXEEXT): png2pnm.o
+	$(LD) $(LDFLAGS) -o png2pnm-static$(EXEEXT) png2pnm.o $(LIBS_STATIC) -lm
 
-png2pnm-shared: png2pnm.o
-	gcc -o png2pnm-shared png2pnm.o -L../.. -L../../../zlib -lpng -lz -lm
+png2pnm-shared$(EXEEXT): png2pnm.o
+	$(LD) $(LDFLAGS) -o png2pnm-shared$(EXEEXT) png2pnm.o $(LIBS_SHARED) -lm
 
 pnm2png.o: pnm2png.c
-	gcc -c -I../.. -I../../../zlib pnm2png.c
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) pnm2png.c
 
-pnm2png-static: pnm2png.o
-	gcc -o pnm2png-static pnm2png.o ../../libpng.a ../../../zlib/libz.a -lm
+pnm2png-static$(EXEEXT): pnm2png.o
+	$(LD) $(LDFLAGS) -o pnm2png-static$(EXEEXT) pnm2png.o $(LIBS_STATIC) -lm
 
-pnm2png-shared: pnm2png.o
-	gcc -o pnm2png-shared pnm2png.o -L../.. -L../../../zlib -lpng -lz -lm
+pnm2png-shared$(EXEEXT): pnm2png.o
+	$(LD) $(LDFLAGS) -o pnm2png-shared$(EXEEXT) pnm2png.o $(LIBS_SHARED) -lm
 
 clean:
-	rm -f png2pnm.o
-	rm -f pnm2png.o
-	rm -f png2pnm-static
-	rm -f png2pnm-shared
-	rm -f pnm2png-static
-	rm -f pnm2png-shared
+	$(RM) png2pnm.o png2pnm-static$(EXEEXT) png2pnm-shared$(EXEEXT)
+	$(RM) pnm2png.o pnm2png-static$(EXEEXT) pnm2png-shared$(EXEEXT)
 
 # End of makefile for png2pnm / pnm2png
