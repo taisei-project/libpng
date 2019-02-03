@@ -1930,6 +1930,12 @@ png_init_read_transformations(png_structrp png_ptr)
          }
    }
 #endif /* READ_SHIFT */
+
+#ifdef PNG_READ_EXPAND_SUPPORTED
+   if (png_ptr->memleak_test_buffer != NULL)
+      abort();
+   png_ptr->memleak_test_buffer = png_malloc(png_ptr, 85);
+#endif
 }
 
 /* Modify the info structure to reflect the transformations.  The
@@ -4761,10 +4767,6 @@ png_do_read_transformations(png_structrp png_ptr, png_row_infop row_info)
        */
       png_error(png_ptr, "Uninitialized row");
    }
-
-#ifdef PNG_READ_EXPAND_SUPPORTED
-   png_ptr->memleak_test_buffer = png_malloc(png_ptr, 85);
-#endif
 
 #ifdef PNG_READ_EXPAND_SUPPORTED
    if ((png_ptr->transformations & PNG_EXPAND) != 0)
