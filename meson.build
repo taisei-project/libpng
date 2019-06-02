@@ -26,6 +26,9 @@ libpng_deps = [
 ]
 
 libpng = library(png_libname, [
+        'arm/arm_init.c',
+        'arm/filter_neon_intrinsics.c',
+        'arm/palette_neon_intrinsics.c',
         'png.c',
         'pngerror.c',
         'pngget.c',
